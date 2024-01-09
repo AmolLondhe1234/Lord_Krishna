@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Krishna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+</head>
+<body>
+    <div class="--dark-theme" id="chat">
+        <div class="chat__conversation-board" id="message-container">
+            <!-- Messages will be dynamically added here -->
+        </div>
+        <div class="chat__conversation-panel">
+            <div class="chat__conversation-panel__container">
+                <input id="user-input" class="chat__conversation-panel__input panel-item" placeholder="Type a message..." required />
+                <button onclick="sendMessage()" class="chat__conversation-panel__button panel-item btn-icon send-message-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            function sendMessage() {
+                var userInput = document.getElementById('user-input').value;
+
+                // Emit user input to the server
+                socket.emit('send_message', { user_input: userInput });
+
+                // Clear the user input field
+                document.getElementById('user-input').value = '';
+            }
+
+            // Listen for received messages
+            socket.on('receive_message', function (message) {
+                var messageContainer = document.getElementById('message-container');
+
+                // Add the received message to the chat
+                var messageHTML = '<div class="chat__conversation-board__message-container ' +
+                    (message.reversed ? 'reversed' : '') + '">' +
+                    '<div class="chat__conversation-board__message__person">' +
+                    '<div class="chat__conversation-board__message__person__avatar">' +
+                    '<img src="' + message.avatar + '" alt="' + message.nickname + '"/>' +
+                    '</div>' +
+                    '<span class="chat__conversation-board__message__person__nickname">' + message.nickname + '</span>' +
+                    '</div>' +
+                    '<div class="chat__conversation-board__message__context">' +
+                    '<div class="chat__conversation-board__message__bubble">' +
+                    '<span>' + message.text + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="chat__conversation-board__message__options">' +
+                    '<button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">' +
+                    '<svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                    '<circle cx="12" cy="12" r="10"></circle>' +
+                    '<path d="M8 14s1.5 2 4 2 4-2 4-2"></path>' +
+                    '<line x1="9" y1="9" x2="9.01" y2="9"></line>' +
+                    '<line x1="15" y1="9" x2="15.01" y2="9"></line>' +
+                    '</svg>' +
+                    '</button>' +
+                    '<button class="btn-icon chat__conversation-board__message__option-button option-item more-button">' +
+                    '<svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                    '<circle cx="12" cy="12" r="1"></circle>' +
+                    '<circle cx="19" cy="12" r="1"></circle>' +
+                    '<circle cx="5" cy="12" r="1"></circle>' +
+                    '</svg>' +
+                    '</button>' +
+                    '</div>' +
+                    '</div>';
+
+                messageContainer.innerHTML += messageHTML;
+            });
+        </script>
+    </div>
+</body>
+</html>
