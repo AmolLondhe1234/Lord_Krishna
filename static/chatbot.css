@@ -10,10 +10,25 @@
   }
   
   body {
-    background: url(images/OIG.WjaIDZGBRCJKS97Ghwtu.jpg);
+    background: url(images/OIG.WjaIDZGBRCJKS97Ghwtu.jpg) fixed;
     background-size: cover;
   }
+
   
+  .chatbox-title {
+    color: white;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+      to {
+          opacity: 1;
+      }
+  }
+
   #chat {
     background: var(--chat-background);
     max-width: 600px;
@@ -255,3 +270,61 @@
       display: none !important;
     }
   }
+/* Main Footer Container */
+.footer-container {
+  position: relative;  /* Change to 'fixed' */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #000000, #333333);
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Main Footer Styles */
+.footer {
+  color: white;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Footer Content Container */
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  gap: 15px;
+}
+
+/* Paragraph Styles */
+.footer p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Anchor (Link) Styles */
+.footer a {
+  color: #f1c40f;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #ffffff;
+}
+
+/* Social Media Icons */
+.footer img {
+  width: 20px;
+  height: auto;
+  margin-right: 5px;
+}
+
+/* Responsive Styles for Small Screens */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    padding: 10px;
+  }
+}

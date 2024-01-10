@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
 </head>
 <body>
+    
     <div class="--dark-theme" id="chat">
+        <audio id="sendSound">
+            <source src="{{ url_for('static', filename='music/videoplayback.webm') }}" type="audio/webm">
+            Your browser does not support the audio element.
+        </audio>        
+        <h1 class="chatbox-title">The Krishna</h1>
         <div class="chat__conversation-board" id="message-container">
             <!-- Messages will be dynamically added here -->
         </div>
@@ -22,31 +28,50 @@
                 </button>
             </div>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    </div>
+    <div class="footer-container">
+        <div class="footer">
+            <footer>
+                <div class="footer-content">
+                    <p>&copy; 2024 The Krishna. All rights reserved.</p>
+                    <p>Developed by Amol Londhe | Integrated by AgroTech</p>
+                </div>
+            </footer>
+        </div>
+      </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
         <script>
             var socket = io.connect('http://' + document.domain + ':' + location.port);
 
             function sendMessage() {
                 var userInput = document.getElementById('user-input').value;
-
+        
+                // Display the user's message immediately
+                displayMessage({
+                    text: userInput,
+                    reversed: true, // Set to true for user messages
+                });
+        
+                // Play the send sound
+                var sendSound = document.getElementById('sendSound');
+                sendSound.play();
+        
                 // Emit user input to the server
                 socket.emit('send_message', { user_input: userInput });
-
+        
                 // Clear the user input field
                 document.getElementById('user-input').value = '';
             }
-
-            // Listen for received messages
-            socket.on('receive_message', function (message) {
+        
+            
+            // Display a message in the chat
+            function displayMessage(message) {
                 var messageContainer = document.getElementById('message-container');
-
-                // Add the received message to the chat
+        
                 var messageHTML = '<div class="chat__conversation-board__message-container ' +
                     (message.reversed ? 'reversed' : '') + '">' +
                     '<div class="chat__conversation-board__message__person">' +
                     '<div class="chat__conversation-board__message__person__avatar">' +
-                    '<img src="' + message.avatar + '" alt="' + message.nickname + '"/>' +
                     '</div>' +
                     '<span class="chat__conversation-board__message__person__nickname">' + message.nickname + '</span>' +
                     '</div>' +
@@ -73,10 +98,25 @@
                     '</button>' +
                     '</div>' +
                     '</div>';
-
+        
                 messageContainer.innerHTML += messageHTML;
+        
+                // Scroll to the bottom of the chat container to show the latest message
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+        
+            // Listen for received messages
+            socket.on('receive_message', function (message) {
+                // Simulate typing delay for the chatbot's message
+                setTimeout(function () {
+                    // Update the message object to display on the left side
+                    message.reversed = false;
+                    // Add the received message to the chat
+                    displayMessage(message);
+                }, 1000); // Adjust the delay duration as needed
             });
+        
+            
         </script>
-    </div>
 </body>
 </html>
