@@ -12,6 +12,10 @@ chatbot_api_url = "https://the-krishna.onrender.com/chat"
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/chatbot')
+def chatbot():
     return render_template('chatbot.html')
 
 @socketio.on('send_message')
