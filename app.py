@@ -1,8 +1,10 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 import requests
 
 app = Flask(__name__)
+CORS(app)
 socketio = SocketIO(app)
 
 # External chatbot API link
