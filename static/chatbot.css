@@ -276,11 +276,15 @@
   
   @media only screen and (max-width: var(--mobile-breakpoint)) {
     #chat {
-      height: calc(100vh - 55px - 2em - .5em - 3em);
+      height: 20vh; /* Adjust this value to your preference */
     }
   
     #chat .chat__conversation-board {
-      height: calc(100vh - 55px - 2em - .5em - 3em);
+      height: 70vh; /* Adjust this value accordingly */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   
     #chat .chat__conversation-board__message__options {
