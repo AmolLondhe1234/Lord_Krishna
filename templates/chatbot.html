@@ -9,13 +9,14 @@
 </head>
 
 <body>
-
     <div class="--dark-theme" id="chat">
+        <div class="chatbox-title">
+            <h1>The Krishna</h1>
+        </div>
         <audio id="sendSound">
             <source src="{{ url_for('static', filename='music/videoplayback.webm') }}" type="audio/webm">
             Your browser does not support the audio element.
         </audio>
-        <h1 class="chatbox-title">The Krishna</h1>
         <div class="chat__conversation-board" id="message-container">
             <!-- Messages will be dynamically added here -->
         </div>
@@ -23,7 +24,7 @@
             <div class="chat__conversation-panel__container">
                 <input id="user-input" class="chat__conversation-panel__input panel-item" placeholder="Type a message..." required />
                 <button onclick="sendMessage()" class="chat__conversation-panel__button panel-item btn-icon send-message-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
