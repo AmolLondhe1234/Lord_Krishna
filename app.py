@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 import requests
+from logging import Logger
 
 app = Flask(__name__)
 CORS(app)
@@ -30,7 +31,7 @@ def handle_message(data):
 
     # Chatbot message
     chatbot_response = response.json().get('completion', 'Error getting response from the chatbot API')
-    print(chatbot_response)
+    Logger.log(chatbot_response)
     chatbot_message = {
         'nickname': 'Kridhna',
         'text': chatbot_response,

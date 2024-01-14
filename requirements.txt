@@ -3,3 +3,4 @@ flask_socketio
 requests
 flask_cors
 gunicorn
+logging
