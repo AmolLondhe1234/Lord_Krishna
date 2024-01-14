@@ -22,7 +22,7 @@
         </div>
         <div class="chat__conversation-panel">
             <div class="chat__conversation-panel__container">
-                <input id="user-input" class="chat__conversation-panel__input panel-item" placeholder="Type a message..." required />
+                <input id="user-input" class="chat__conversation-panel__input panel-item" placeholder="Type a message..." required onkeydown="handleKeyDown(event)" />
                 <button onclick="sendMessage()" class="chat__conversation-panel__button panel-item btn-icon send-message-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -118,6 +118,16 @@
     
             // Scroll to the bottom of the chat container to show the latest message
             messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+        function handleKeyDown(event) {
+            // Check if the pressed key is Enter (key code 13)
+            if (event.keyCode === 13) {
+                // Prevent the default behavior of the Enter key (e.g., adding a newline)
+                event.preventDefault();
+                
+                // Call the sendMessage function
+                sendMessage();
+            }
         }
     </script>    
 

@@ -275,22 +275,26 @@
   }
   
   @media only screen and (max-width: var(--mobile-breakpoint)) {
+    body {
+      margin: 0; /* Remove default body margin */
+      overflow: hidden; /* Prevent body scrolling */
+    }
+  
     #chat {
-      height: 20vh; /* Adjust this value to your preference */
+      height: 100vh;
+      margin: 0; /* Remove margin to take up the full width */
     }
   
     #chat .chat__conversation-board {
-      height: 70vh; /* Adjust this value accordingly */
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  
-    #chat .chat__conversation-board__message__options {
-      display: none !important;
+      justify-content: flex-end;
+      align-items: stretch;
     }
   }
+  
+  
   
 /* Main Footer Container */
 .footer-container {
