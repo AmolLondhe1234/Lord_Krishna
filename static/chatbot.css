@@ -276,12 +276,17 @@
   }
   
   @media only screen and (max-width: var(--mobile-breakpoint)) {
+    body {
+      overflow: auto; /* Allow scrolling on the body */
+    }
+  
     #chat {
       max-width: 100%;
+      height: auto; /* Adjust the height as needed */
     }
   
     #chat .chat__conversation-board {
-      height: calc(100vh - 55px - 2em);
+      height: auto; /* Adjust the height as needed */
     }
   }
   
