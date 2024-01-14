@@ -1,11 +1,7 @@
-from flask import Flask, render_template
-from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+from flask import Flask, render_template, request, jsonify
 import requests
 
 app = Flask(__name__)
-CORS(app)
-socketio = SocketIO(app)
 
 # External chatbot API link
 chatbot_api_url = "https://the-krishna.onrender.com/chat"
@@ -18,12 +14,9 @@ def index():
 def chatbot():
     return render_template('chatbot.html')
 
-@socketio.on('send_message')
-def handle_message(data):
-    user_input = data['user_input']
-
-    # Emit user message to all clients
-    emit('receive_message', {'nickname': 'User', 'text': user_input}, broadcast=True)
+@app.route('/send_message', methods=['POST'])
+def send_message():
+    user_input = request.json['user_input']
 
     # Request to the chatbot API
     response = requests.post(chatbot_api_url, json={'prompt': user_input})
@@ -38,8 +31,7 @@ def handle_message(data):
         'reversed': True
     }
 
-    # Emit chatbot message to all clients
-    emit('receive_message', chatbot_message, broadcast=True)
+    return jsonify({'user_message': user_input, 'chatbot_message': chatbot_message})
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)

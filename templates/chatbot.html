@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Krishna</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
 </head>
+
 <body>
-    
+
     <div class="--dark-theme" id="chat">
         <audio id="sendSound">
             <source src="{{ url_for('static', filename='music/videoplayback.webm') }}" type="audio/webm">
             Your browser does not support the audio element.
-        </audio>        
+        </audio>
         <h1 class="chatbox-title">The Krishna</h1>
         <div class="chat__conversation-board" id="message-container">
             <!-- Messages will be dynamically added here -->
@@ -38,85 +40,86 @@
                 </div>
             </footer>
         </div>
-      </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-        <script>
-            var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-            function sendMessage() {
-                var userInput = document.getElementById('user-input').value;
-        
-                // Display the user's message immediately
-                displayMessage({
-                    text: userInput,
-                    reversed: true, // Set to true for user messages
-                });
-        
-                // Play the send sound
-                var sendSound = document.getElementById('sendSound');
-                sendSound.play();
-        
-                // Emit user input to the server
-                socket.emit('send_message', { user_input: userInput });
-        
-                // Clear the user input field
-                document.getElementById('user-input').value = '';
-            }
-        
-            
-            // Display a message in the chat
-            function displayMessage(message) {
-                var messageContainer = document.getElementById('message-container');
-        
-                var messageHTML = '<div class="chat__conversation-board__message-container ' +
-                    (message.reversed ? 'reversed' : '') + '">' +
-                    '<div class="chat__conversation-board__message__person">' +
-                    '<div class="chat__conversation-board__message__person__avatar">' +
-                    '</div>' +
-                    '<span class="chat__conversation-board__message__person__nickname">' + message.nickname + '</span>' +
-                    '</div>' +
-                    '<div class="chat__conversation-board__message__context">' +
-                    '<div class="chat__conversation-board__message__bubble">' +
-                    '<span>' + message.text + '</span>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="chat__conversation-board__message__options">' +
-                    '<button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">' +
-                    '<svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-                    '<circle cx="12" cy="12" r="10"></circle>' +
-                    '<path d="M8 14s1.5 2 4 2 4-2 4-2"></path>' +
-                    '<line x1="9" y1="9" x2="9.01" y2="9"></line>' +
-                    '<line x1="15" y1="9" x2="15.01" y2="9"></line>' +
-                    '</svg>' +
-                    '</button>' +
-                    '<button class="btn-icon chat__conversation-board__message__option-button option-item more-button">' +
-                    '<svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-                    '<circle cx="12" cy="12" r="1"></circle>' +
-                    '<circle cx="19" cy="12" r="1"></circle>' +
-                    '<circle cx="5" cy="12" r="1"></circle>' +
-                    '</svg>' +
-                    '</button>' +
-                    '</div>' +
-                    '</div>';
-        
-                messageContainer.innerHTML += messageHTML;
-        
-                // Scroll to the bottom of the chat container to show the latest message
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }
-        
-            // Listen for received messages
-            socket.on('receive_message', function (message) {
+    </div>
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+    
+            // Display the user's message on the right side
+            displayMessage({
+                text: userInput,
+                reversed: true // Set to true for user messages
+            });
+    
+            // Play the send sound
+            var sendSound = document.getElementById('sendSound');
+            sendSound.play();
+    
+            // Send user input to the server
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_input: userInput
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
                 // Simulate typing delay for the chatbot's message
                 setTimeout(function () {
                     // Update the message object to display on the left side
-                    message.reversed = false;
+                    data.chatbot_message.reversed = false;
                     // Add the received message to the chat
-                    displayMessage(message);
+                    displayMessage(data.chatbot_message);
                 }, 1000); // Adjust the delay duration as needed
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
-        
-            
-        </script>
+    
+            // Clear the user input field
+            document.getElementById('user-input').value = '';
+        }
+    
+        // Display a message in the chat
+        function displayMessage(message) {
+            var messageContainer = document.getElementById('message-container');
+    
+            var messageHTML = '<div class="chat__conversation-board__message-container ' +
+                (message.reversed ? 'reversed' : '') + '">' +
+                '<div class="chat__conversation-board__message__context">' +
+                '<div class="chat__conversation-board__message__bubble">' +
+                '<span>' + message.text + '</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="chat__conversation-board__message__options">' +
+                '<button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">' +
+                '<svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<circle cx="12" cy="12" r="10"></circle>' +
+                '<path d="M8 14s1.5 2 4 2 4-2 4-2"></path>' +
+                '<line x1="9" y1="9" x2="9.01" y2="9"></line>' +
+                '<line x1="15" y1="9" x2="15.01" y2="9"></line>' +
+                '</svg>' +
+                '</button>' +
+                '<button class="btn-icon chat__conversation-board__message__option-button option-item more-button">' +
+                '<svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<circle cx="12" cy="12" r="1"></circle>' +
+                '<circle cx="19" cy="12" r="1"></circle>' +
+                '<circle cx="5" cy="12" r="1"></circle>' +
+                '</svg>' +
+                '</button>' +
+                '</div>' +
+                '</div>';
+    
+            messageContainer.innerHTML += messageHTML;
+    
+            // Scroll to the bottom of the chat container to show the latest message
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+    </script>    
+
 </body>
+
 </html>
