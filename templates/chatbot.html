@@ -1,22 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Krishna</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
-</head>
-
-<body>
-    <div class="--dark-theme" id="chat">
-        <div class="chatbox-title">
-            <h1>The Krishna</h1>
-        </div>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Krishna</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='star.css') }}">
+    </head>
+    
+    <body>
+        
         <audio id="sendSound">
             <source src="{{ url_for('static', filename='music/videoplayback.webm') }}" type="audio/webm">
             Your browser does not support the audio element.
         </audio>
+        <br>
+        <br>
+    <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    </div>  
+    <div class="--dark-theme" id="chat">
+        <h2><span>The</span><span>Krishna</span></h1>
         <div class="chat__conversation-board" id="message-container">
             <!-- Messages will be dynamically added here -->
         </div>
@@ -38,6 +92,14 @@
                 <div class="footer-content">
                     <p>&copy; 2024 The Krishna. All rights reserved.</p>
                     <p>Developed by Amol Londhe | Integrated by AgroTech</p>
+                    <button onclick="toggleMusic()" class="btn-icon music-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <rect x="2" y="2" width="20" height="20" rx="2.5" ry="2.5"></rect>
+                            <polygon points="9 15 16 9 9 3"></polygon>
+                        </svg>
+                    </button>
                 </div>
             </footer>
         </div>
@@ -54,10 +116,6 @@
                 text: userInput,
                 reversed: true // Set to true for user messages
             });
-    
-            // Play the send sound
-            var sendSound = document.getElementById('sendSound');
-            sendSound.play();
     
             // Send user input to the server
             fetch('/send_message', {
@@ -130,6 +188,15 @@
                 
                 // Call the sendMessage function
                 sendMessage();
+            }
+        }
+
+        function toggleMusic() {
+            var sendSound = document.getElementById('sendSound');
+            if (sendSound.paused) {
+                sendSound.play();
+            } else {
+                sendSound.pause();
             }
         }
     </script>    

@@ -19,13 +19,36 @@
     background-size: cover;
     margin: 0;
     overflow: hidden;
+    animation-name: underwater-animation;
+    animation-duration: 4s;
+    animation-timing-function: linear; /* Change to linear for a continuous animation */
+    animation-iteration-count: infinite;
   }
   
+  
+  @keyframes underwater-animation {
+    0% {
+      background-position: center;
+    }
+    25% {
+      background-position: top;
+    }
+    50% {
+      background-position: center;
+    }
+    75% {
+      background-position: bottom;
+    }
+    100% {
+      background-position: center;
+    }
+  }
 
   
   .chatbox-title {
-    color: white;
+    color: rgb(61, 26, 151);
     animation: fadeIn 1.5s ease-in-out;
+    text-align: center;
   }
 
   @keyframes fadeIn {
@@ -37,13 +60,90 @@
       }
   }
 
+  
+h2 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: 'Times New Roman', serif;
+  letter-spacing: 7px;
+  text-align: center;
+  position: relative;
+}
+
+h2 span {
+  transition: 1s ease-in-out;
+}
+
+@keyframes continuousAnimation {
+  0% {
+      color: #4CAF50;
+      text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+  }
+  50% {
+      color: #2196F3;
+      text-shadow: 0 0 10px #2196F3, 0 0 20px #2196F3, 0 0 40px #2196F3;
+  }
+  100% {
+      color: #4CAF50;
+      text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+  }
+}
+
+@keyframes continuousAnimationSecondWord {
+  0% {
+      color: #4CAF50;
+      text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+  }
+  50% {
+      color: #2196F3;
+      text-shadow: 0 0 10px #2196F3, 0 0 20px #2196F3, 0 0 40px #2196F3;
+  }
+  100% {
+      color: #4CAF50;
+      text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+  }
+}
+
+h2 span:nth-child(1) {
+  animation: continuousAnimation 5s infinite;
+}
+
+h2 span:nth-child(2) {
+  animation: continuousAnimationSecondWord 5s infinite;
+}
+
+h2 span:nth-child(1):after {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+h2 span:nth-child(2) {
+  margin-left: 30px;
+}
+
+h2 span {
+  color: #4CAF50;
+  text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 40px #4CAF50;
+}
+  
+
+
+  .subtitle {
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #aaa; /* Adjust the color as needed */
+}
+
   #chat {
     background: var(--chat-background);
     max-width: 600px;
-    margin: 25px auto;
-    height: 80vh;
+    margin: 50px auto;
+    height: 65vh;
     box-sizing: border-box;
     padding: 1em;
+    padding-bottom: 20px;
     border-radius: 12px;
     position: relative;
     overflow: auto;  /* Enable scrolling only for chatbox */
@@ -281,7 +381,7 @@
     }
 
     #chat {
-        max-width: 100%;
+        max-width: 1000px;
         height: 300px; /* Adjust the height as needed */
     }
 
