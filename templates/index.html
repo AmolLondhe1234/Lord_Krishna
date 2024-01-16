@@ -1,51 +1,83 @@
 <!DOCTYPE html>
-	<html lang="en">
-	<head>
-	    <meta charset="UTF-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>The Krishna (only for experiment)</title>
-	    <!-- Icons -->
-	    <link rel="stylesheet"
-	    href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-	    <!-- Link To CSS -->
-	    <link rel="stylesheet" href="/static/style.css">
-	</head>
-	<body>
-	    <!-- Main -->
-	    <section id="main">
-	        <!-- Glass Box -->
-	        <div class="main-box">
-	            <!-- Navbar -->
-	            <nav>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Krishna (only for experiment)</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <!-- Link To CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Add this style for the loader */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+            margin-top: 20px;
+            display: none; /* initially hide the loader */
+        }
 
-	            </nav>
-	            <!-- Main Content -->
-	            <div class="main-content">
-	                <!-- Main Text -->
-	                <div class="main-text">
-						<!--Namaste ICON -->
-							<img src="/static/images/namaste.svg" alt="icone" height="90px" width="90px">
-					
-	                    <h1>Dear Devotee<br>I am Vasudev Krishna</h1>
-	                    <h2>Welcome to My universe</h2>
-	                    <p>In the universe created by Vasudev Krishna, each visit is a journey into opulence and refinement. <br>Explore the unique charm of this space, where every nuance is designed to captivate the senses. </p>
-	                    <!-- Buttons -->
-	                    <a href="/chatbot" class="btn1">Start journey with me</a>
-	                    <a href="#" class="btn2">About-me</a>
-	                </div>
-	                <!-- Image -->
-	                <div class="main-img">
-						<div class="kimg">
-							<img src="/static/images/krishna.jpeg" alt="img">
-						</div>
-	                    
-	                </div>
-	            </div>
-	        </div>
-	    </section>
-	    <!-- circles -->
-	    <div class="circle1"></div>
-	    <div class="circle2"></div>
-	</body>
-	</html>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main -->
+    <section id="main">
+        <!-- Glass Box -->
+        <div class="main-box">
+            <!-- Navbar -->
+            <nav>
+
+            </nav>
+            <!-- Main Content -->
+            <div class="main-content" id="mainContent">
+                <!-- Main Text -->
+                <div class="main-text">
+                    <!--Namaste ICON -->
+                    <img src="/static/images/namaste.svg" alt="icone" height="90px" width="90px">
+                
+                    <h1>Dear Devotee<br>I am Vasudev Krishna</h1>
+                    <h2>Welcome to My universe</h2>
+                    <p>In the universe created by Vasudev Krishna, each visit is a journey into opulence and refinement. <br>Explore the unique charm of this space, where every nuance is designed to captivate the senses. </p>
+                    <!-- Buttons -->
+                    <a href="#" class="btn1" id="startJourneyBtn">Start journey with me</a>
+                    <a href="#" class="btn2">About-me</a>
+                </div>
+                <!-- Loader -->
+                <div class="loader" id="loader"></div>
+                <!-- Image -->
+                <div class="main-img">
+                    <div class="kimg">
+                        <img src="/static/images/krishna.jpeg" alt="img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- circles -->
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+
+    <script>
+        // Add JavaScript to show loader on button click
+        document.getElementById("startJourneyBtn").addEventListener("click", function() {
+            document.getElementById("mainContent").style.display = "none";
+            document.getElementById("loader").style.display = "block";
+
+            // Set timeout to redirect after 5 seconds
+            setTimeout(function() {
+                window.location.href = "/chatbot";
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
