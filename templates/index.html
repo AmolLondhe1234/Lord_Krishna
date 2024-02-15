@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,108 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <!-- Link To CSS -->
-    <link rel="stylesheet" href="/static/style.css">
     <style>
         /* Add this style for the loader */
+        :root {
+            --card-height: 70px;
+            --card-width: 200px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-image: url("/static/images/andrey-grinkevich-0x6RTts1jRU-unsplash.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        
+        
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 10px; /* Add margin for spacing */
+        }
+        
+        .card {
+            width: var(--card-width);
+            height: var(--card-height);
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 0 36px;
+            perspective: 2500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Center the card horizontally and position it 20px from the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 20px;
+        }
+        
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px; /* Add border-radius for rounded corners */
+        }
+        
+        .wrapper {
+            transition: all 0.5s;
+            position: fixed;
+            width: 100%;
+            z-index: -1;
+        }
+        
+        .wrapper::before,
+        .wrapper::after {
+            content: "";
+            opacity: 0;
+            width: 100%;
+            height: 80px;
+            transition: all 0.5s;
+            position: absolute;
+            left: 0;
+        }
+        
+        .card:hover > .wrapper::before,
+        .card:hover > .wrapper::after {
+            opacity: 1;
+        }
+        
+        .card:hover > .wrapper::after {
+            height: 120px;
+        }
+        
+        .title {
+            width: 100%;
+            transition: transform 0.5s;
+        }
+        
+        .card:hover > .title {
+            transform: translate3d(0%, -50px, 100px);
+        }
+        
+        .character {
+            width: 100%;
+            opacity: 0;
+            transition: all 0.5s;
+            position: absolute;
+            z-index: -1;
+        }
+        
+        .card:hover > .character {
+            opacity: 1;
+            transform: translate3d(0%, -30%, 100px);
+        }
+        
         .loader {
             border: 8px solid #f3f3f3;
             border-top: 8px solid #3498db;
@@ -20,64 +120,140 @@
             animation: spin 1s linear infinite;
             margin: auto;
             margin-top: 20px;
-            display: none; /* initially hide the loader */
+            display: none;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+        
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Updated body text and additional attraction animation */
+        h1 {
+            font-size: 3em;
+            color: transparent;
+            text-align: center;
+            position: fixed;
+            bottom: 220px; /* Adjust this value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            animation: textclip 2s linear infinite;
+        }
+
+        .animate-character {
+            text-transform: uppercase;
+            background-image: linear-gradient(
+                -225deg,
+                #ff9500 0%,
+                #ffffff 29%,
+                #000000 67%,
+                #fff800 100%
+            );
+            background-size: auto auto;
+            background-clip: border-box;
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: textclip 2s linear infinite;
+        }
+        
+        @keyframes textclip {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: rgba(255, 255, 255, .70);
+            text-align: center;
+            position: fixed;
+            bottom: 160px; /* Adjust this value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Animation for h2 */
+        h2 {
+            border-right: solid 3px rgba(0, 255, 0, .75);
+            white-space: nowrap;
+            overflow: hidden;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1.8em;
+            color: rgba(255, 255, 255, .70);
+            text-align: center;
+            position: fixed;
+            bottom: 160px; /* Adjust this value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            animation: animated-text 4s steps(29, end) 1s 1 normal both,
+                       animated-cursor 600ms steps(29, end) infinite;
+        }
+
+        /* Text animation for h2 */
+        @keyframes animated-text {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Cursor animations for h2 */
+        @keyframes animated-cursor {
+            from {
+                border-right-color: rgba(0, 255, 0, .75);
+            }
+
+            to {
+                border-right-color: transparent;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Main -->
-    <section id="main">
-        <!-- Glass Box -->
-        <div class="main-box">
-            <!-- Navbar -->
-            <nav>
-
-            </nav>
-            <!-- Main Content -->
-            <div class="main-content" id="mainContent">
-                <!-- Main Text -->
-                <div class="main-text">
-                    <!--Namaste ICON -->
-                    <img src="/static/images/namaste.svg" alt="icone" height="90px" width="90px">
-                
-                    <h1>Dear Devotee<br>I am Vasudev Krishna</h1>
-                    <h2>Welcome to My universe</h2>
-                    <p>In the universe created by Vasudev Krishna, each visit is a journey into opulence and refinement. <br>Explore the unique charm of this space, where every nuance is designed to captivate the senses. </p>
-                    <!-- Buttons -->
-                    <a href="#" class="btn1" id="startJourneyBtn">Start journey with me</a>
-                    <a href="#" class="btn2">About-me</a>
+    <!-- Main Text -->
+    <h1 class="animate-character">Welcome to My Universe, Where Adventures Await!</h1>
+    <h2>I am Krishna, Your Guide Through the Mysteries of Existence.</h2>
+    <div class="main-content" id="mainContent">
+        <a href="/chatbot" alt="Mythrill" target="_blank">
+            <div class="card">
+                <div class="wrapper">
+                    <img src="/static/images/1613790.webp" class="cover-image" />
                 </div>
-                <!-- Loader -->
-                <div class="loader" id="loader"></div>
-                <!-- Image -->
-                <div class="main-img">
-                    <div class="kimg">
-                        <img src="/static/images/krishna.jpeg" alt="img">
-                    </div>
-                </div>
+                <img src="/static/images/ccad13600352f31863a338db442fa697.png" class="title" />
+                <img src="/static/images/5851024-removebg-preview2.png" class="character" />
             </div>
-        </div>
-    </section>
-    <!-- circles -->
-    <div class="circle1"></div>
-    <div class="circle2"></div>
+        </a>
+        <!-- Loader -->
+        <div class="loader" id="loader"></div>
+    </div>
 
     <script>
         // Add JavaScript to show loader on button click
-        document.getElementById("startJourneyBtn").addEventListener("click", function() {
+        document.getElementById("startJourneyBtn").addEventListener("click", function () {
             document.getElementById("mainContent").style.display = "none";
             document.getElementById("loader").style.display = "block";
 
             // Set timeout to redirect after 5 seconds
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location.href = "/chatbot";
             }, 5000);
         });
     </script>
 </body>
+
 </html>

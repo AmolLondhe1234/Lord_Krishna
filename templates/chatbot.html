@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Krishna</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='star.css') }}">
-    </head>
-    
-<body> 
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Krishna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='star.css') }}">
+
+</head>
+
+<body>
     <audio id="sendSound">
         <source src="{{ url_for('static', filename='music/videoplayback.webm') }}" type="audio/webm">
         Your browser does not support the audio element.
@@ -18,64 +19,20 @@
     <br>
     <div class="stars">
         <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    </div>  
+        <!-- ... (Add more stars as needed) ... -->
+    </div>
     <div class="--dark-theme" id="chat">
         <h2><span>The</span><span>Krishna</span></h1>
         <div class="chat__conversation-board" id="message-container">
             <!-- Messages will be dynamically added here -->
+            
         </div>
         <div class="chat__conversation-panel">
             <div class="chat__conversation-panel__container">
-                <input id="user-input" class="chat__conversation-panel__input panel-item" placeholder="Type a message..." required onkeydown="handleKeyDown(event)" />
+                
+                <input id="user-input" class="chat__conversation-panel__input panel-item"
+                    placeholder="Type a message..." required onkeydown="handleKeyDown(event)" />
+                    <div id="loading-indicator" class="loading-indicator"></div>
                 <button onclick="sendMessage()" class="chat__conversation-panel__button panel-item btn-icon send-message-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -84,6 +41,8 @@
                 </button>
             </div>
         </div>
+        <!-- Loading Indicator -->
+        
     </div>
     <div class="footer-container">
         <div class="footer">
@@ -107,47 +66,73 @@
         if (window.innerWidth <= 600) {
             document.body.classList.add('mobile-view');
         }
+
         function sendMessage() {
-            var userInput = document.getElementById('user-input').value;
-    
-            // Display the user's message on the right side
-            displayMessage({
-                text: userInput,
-                reversed: true // Set to true for user messages
-            });
-    
-            // Send user input to the server
-            fetch('/send_message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user_input: userInput
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Simulate typing delay for the chatbot's message
-                setTimeout(function () {
-                    // Update the message object to display on the left side
-                    data.chatbot_message.reversed = false;
-                    // Add the received message to the chat
-                    displayMessage(data.chatbot_message);
-                }, 1000); // Adjust the delay duration as needed
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    
-            // Clear the user input field
-            document.getElementById('user-input').value = '';
+            var userInput = document.getElementById('user-input').value.trim();
+        
+            // Check if the user input is not empty
+            if (userInput !== '') {
+                // Disable the send button
+                document.getElementById('user-input').disabled = true;
+        
+                // Display the loading circle
+                document.getElementById('loading-indicator').innerHTML = '<div class="loading-circle"></div>';
+                document.getElementById('loading-indicator').style.display = 'block';
+        
+                // Display the user's message on the right side
+                displayMessage({
+                    text: userInput,
+                    reversed: true // Set to true for user messages
+                });
+        
+                // Send user input to the server
+                fetch('/send_message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_input: userInput
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Simulate typing delay for the chatbot's message
+                    setTimeout(function () {
+                        // Update the message object to display on the left side
+                        data.chatbot_message.reversed = false;
+                        // Add the received message to the chat
+                        displayMessage(data.chatbot_message);
+        
+                        // Re-enable the send button
+                        document.getElementById('user-input').disabled = false;
+                        // Hide the loading indicator after displaying the chatbot's response
+                        document.getElementById('loading-indicator').style.display = 'none';
+        
+                        // Focus on the user input text box
+                        document.getElementById('user-input').focus();
+                    }, 1000); // Adjust the delay duration as needed
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    // Re-enable the send button
+                    document.getElementById('user-input').disabled = false;
+                    // Hide the loading indicator in case of an error
+                    document.getElementById('loading-indicator').style.display = 'none';
+        
+                    // Focus on the user input text box
+                    document.getElementById('user-input').focus();
+                });
+        
+                // Clear the user input field
+                document.getElementById('user-input').value = '';
+            }
         }
-    
-        // Display a message in the chat
+        
+
         function displayMessage(message) {
             var messageContainer = document.getElementById('message-container');
-    
+
             var messageHTML = '<div class="chat__conversation-board__message-container ' +
                 (message.reversed ? 'reversed' : '') + '">' +
                 '<div class="chat__conversation-board__message__context">' +
@@ -173,19 +158,16 @@
                 '</button>' +
                 '</div>' +
                 '</div>';
-    
+
             messageContainer.innerHTML += messageHTML;
-    
+
             // Scroll to the bottom of the chat container to show the latest message
             messageContainer.scrollTop = messageContainer.scrollHeight;
         }
+
         function handleKeyDown(event) {
-            // Check if the pressed key is Enter (key code 13)
-            if (event.keyCode === 13) {
-                // Prevent the default behavior of the Enter key (e.g., adding a newline)
+            if (event.keyCode === 13 && !event.shiftKey) {
                 event.preventDefault();
-                
-                // Call the sendMessage function
                 sendMessage();
             }
         }
@@ -198,8 +180,7 @@
                 sendSound.pause();
             }
         }
-    </script>    
-
+    </script>
 </body>
 
 </html>
